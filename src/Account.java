@@ -2,16 +2,13 @@ import java.util.Random;
 
 
 
-public class Account {
+public class Account extends User{
 	
 	// ----------------------------------------
 	//ATTRIBUTUMOK
 	// ----------------------------------------
 	
-	private String name; //anyakonyvezett nev
 	private int IBAN; //international bank account number 117es szammal kezdve
-	private String username; //bejelentkezesi felhasznalonev	
-	private String password; //bejelentkezesi jelszo
 	private int money; //jelenlegi osszeg a szamlan
 	
 	// ----------------------------------------
@@ -20,19 +17,15 @@ public class Account {
 	
 	public Account()
 	{
-		this.name = "";
+		super("","","");
 		this.IBAN = 117;
-		this.username = "";
-		this.password = "";
 		this.money = 0;
 	}
 	
 	public Account(String name,String user, String pw)
 	{
+		super(name,user,pw);
 		this.money = 0;
-		this.name = name;
-		this.username = user;
-		this.password = pw;
 		this.IBAN = 117;
 		setIBAN();
 	}
@@ -43,17 +36,17 @@ public class Account {
 	
 	public String getName()
 	{
-		return this.name;
+		return super.getName();
 	}
 	
 	public String getUsername()
 	{
-		return this.username;
+		return super.getUsername();
 	}
 	
 	public String getPassword()
 	{
-		return this.password;
+		return super.getPassword();
 	}
 	
 	public int getMoney()
@@ -72,17 +65,17 @@ public class Account {
 	
 	public void setName(String s)
 	{
-		this.name = s;
+		super.setName(s);
 	}
 	
 	public void setUsername(String s)
 	{
-		this.username = s;
+		super.setUsername(s);
 	}
 	
 	public void setPassword(String s)
 	{
-		this.password = s;
+		super.setPassword(s);
 	}
 	
 	public void setMoney(int d)

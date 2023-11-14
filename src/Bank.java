@@ -10,6 +10,7 @@ public class Bank {
 	// ----------------------------------------
 	
 	public static ArrayList<Account> accounts = new ArrayList<Account>(); //A fiokok tarolasara hasznalt kontener
+	public static ArrayList<Admin> admins = new ArrayList<Admin>();
 	
 	// ----------------------------------------
 	//METODUSOK
@@ -60,6 +61,18 @@ public class Bank {
 			}
 		}
 		System.out.println("Helytelen felhasznalonev vagy jelszo");
+		return false;
+	}
+
+	public static boolean isAdmin(String username, String password)
+	{
+		for(int i = 0; i<accounts.size();i++)
+		{
+			if(admins.get(i).getUsername().equals(username)&&admins.get(i).getPassword().equals(password))
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 

@@ -50,8 +50,18 @@ class LoginFrame extends JFrame implements ActionListener {
         // Bejelentkezési adatok ellenőrzése
         if (bank.login(username, password)) 
         {
-            usernameField.setText("ugyes"); // TO - DO
-            passwordField.setText("ugyes"); // TO - DO
+            if(bank.isAdmin(username, password))
+            {
+                dispose();
+                JFrame adminFrame = new AdminFrame();
+                adminFrame.setVisible(true);
+            }
+            else
+            {
+                dispose();
+                JFrame applicationFrame = new ApplicationFrame();
+                applicationFrame.setVisible(true);
+            }
         } 
         else 
         {
