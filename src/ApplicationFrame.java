@@ -4,8 +4,9 @@ import java.awt.event.ActionListener;
 
 // Alkalmazás ablak (ApplicationFrame) osztály
 class ApplicationFrame extends JFrame {
-    public ApplicationFrame() {
+    public ApplicationFrame(Bank bank) {
         // Ablak beállításai
+        bank  = new Bank();
         setTitle("Banki Alkalmazás");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

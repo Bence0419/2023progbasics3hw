@@ -8,7 +8,7 @@ public class Account extends User{
 	//ATTRIBUTUMOK
 	// ----------------------------------------
 	
-	private int IBAN; //international bank account number 117es szammal kezdve
+	private long IBAN; //international bank account number 117es szammal kezdve
 	private int money; //jelenlegi osszeg a szamlan
 	
 	// ----------------------------------------
@@ -54,29 +54,14 @@ public class Account extends User{
 		return this.money;
 	}
 	
-	public int getIBAN()
+	public long getIBAN()
 	{
-		return this.IBAN;
+		return IBAN;
 	}
 	
 	// ----------------------------------------
 	//SETTEREK
 	// ----------------------------------------
-	
-	public void setName(String s)
-	{
-		super.setName(s);
-	}
-	
-	public void setUsername(String s)
-	{
-		super.setUsername(s);
-	}
-	
-	public void setPassword(String s)
-	{
-		super.setPassword(s);
-	}
 	
 	public void setMoney(int d)
 	{
@@ -92,15 +77,7 @@ public class Account extends User{
 	
 	public void setIBAN()
 	{
-		String ibanstring = Integer.toString(this.IBAN);
-		for(int i = 0; i<16; i++)
-		{
-			Random rand = new Random();
-			int val = rand.nextInt();
-			Integer.toString(val);
-			ibanstring+=val;
-		}
-		this.IBAN = Integer.parseInt(ibanstring);
+		IBAN = generateIbanAsLong(117, 13);
 	}
 	
 	// ----------------------------------------
@@ -109,12 +86,42 @@ public class Account extends User{
 	
 	public String toString()
 	{
-		String hiddenIBAN = Integer.toString(this.IBAN);
+		String hiddenIBAN = Long.toString(this.IBAN);
 		for(int i = 3; i<hiddenIBAN.length()-4;i++)
 		{
 			hiddenIBAN.replace(hiddenIBAN.charAt(i),'X');
 		}
-		String text = this.name + " " + hiddenIBAN;
+		String text = super.getName() + " " + hiddenIBAN;
 		return text;
 	}
+
+	public static long generateIbanAsLong(int prefix, int length) {
+        // Ellenőrizzük, hogy a prefix szám-e
+        if (prefix < 0) {
+            throw new IllegalArgumentException("A prefixnek pozitív számnak kell lennie.");
+        }
+
+        // Konvertáljuk a prefixet stringgé és számjegyek számát számoljuk meg
+        String prefixStr = Integer.toString(prefix);
+        int prefixDigits = prefixStr.length();
+
+        // Számoljuk meg, hány véletlenszerű számot kell még hozzáadni
+        int remainingDigits = length - prefixDigits;
+
+        // Generáljuk a véletlenszerű számokat és fűzzük össze az IBAN-t
+        StringBuilder ibanBuilder = new StringBuilder(prefixStr);
+        Random random = new Random();
+
+        // Ellenőrizzük, hogy az első szám ne legyen nulla
+        int firstDigit = random.nextInt(9) + 1;
+        ibanBuilder.append(firstDigit);
+
+        for (int i = 1; i < remainingDigits; i++) {
+            int randomDigit = random.nextInt(10);
+            ibanBuilder.append(randomDigit);
+        }
+
+        // Konvertáljuk az IBAN-t long típusba
+        return Long.parseLong(ibanBuilder.toString());
+    }
 }

@@ -53,13 +53,13 @@ class LoginFrame extends JFrame implements ActionListener {
             if(bank.isAdmin(username, password))
             {
                 dispose();
-                JFrame adminFrame = new AdminFrame();
-                adminFrame.setVisible(true);
+                //JFrame adminFrame = new AdminFrame(bank);
+                //adminFrame.setVisible(true);
             }
             else
             {
                 dispose();
-                JFrame applicationFrame = new ApplicationFrame();
+                JFrame applicationFrame = new ApplicationFrame(bank);
                 applicationFrame.setVisible(true);
             }
         } 
