@@ -48,27 +48,29 @@ class LoginFrame extends JFrame implements ActionListener {
         String password = new String(passwordField.getPassword());
 
         // Bejelentkezési adatok ellenőrzése
-        if (bank.login(username, password)) 
+        if(bank.isAdmin(username, password))
         {
-            if(bank.isAdmin(username, password))
+            // JFrame adminFrame = new adminFrame(bank);
+            // adminFrame.setVisible(true);
+            // dispose();
+        }
+        else 
+        {
+            if(bank.login(username, password))
             {
+                Account account = new Account();
+                account = bank.findAccount(username, password);
+                JFrame appFrame = new ApplicationFrame(bank, account);
+                appFrame.setVisible(true);
                 dispose();
-                //JFrame adminFrame = new AdminFrame(bank);
-                //adminFrame.setVisible(true);
             }
             else
             {
-                dispose();
-                JFrame applicationFrame = new ApplicationFrame(bank);
-                applicationFrame.setVisible(true);
+                // Sikertelen bejelentkezés
+                JOptionPane.showMessageDialog(LoginFrame.this, "Hibás felhasználónév vagy jelszó!","Hiba", JOptionPane.ERROR_MESSAGE);
+                usernameField.setText(""); // Felhasználónév mező törlése
+                passwordField.setText(""); // Jelszó mező törlése
             }
-        } 
-        else 
-        {
-            // Sikertelen bejelentkezés
-            JOptionPane.showMessageDialog(LoginFrame.this, "Hibás felhasználónév vagy jelszó!","Hiba", JOptionPane.ERROR_MESSAGE);
-            usernameField.setText(""); // Felhasználónév mező törlése
-            passwordField.setText(""); // Jelszó mező törlése
         }
     }
 }

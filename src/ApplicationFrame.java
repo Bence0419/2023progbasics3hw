@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 
 // Alkalmazás ablak (ApplicationFrame) osztály
 class ApplicationFrame extends JFrame {
-    public ApplicationFrame(Bank bank) {
+    public ApplicationFrame(Bank bank, Account account) {
         // Ablak beállításai
         bank  = new Bank();
         setTitle("Banki Alkalmazás");
@@ -27,7 +27,8 @@ class ApplicationFrame extends JFrame {
         addFeatureButton("Pénz felvétele", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Pénz felvétele
+                JFrame addMoneyFrame = new AddMoneyFrame(account);
+                addMoneyFrame.setVisible(true);
                 JOptionPane.showMessageDialog(ApplicationFrame.this, "Pénz felvétele");
             }
         });

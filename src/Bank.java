@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Bank {
 	
@@ -15,6 +16,13 @@ public class Bank {
 	// ----------------------------------------
 	//METODUSOK
 	// ----------------------------------------
+	
+	
+	public void addAccount(Account account)
+	{
+		account.setIBAN(generateIban());
+		accounts.add(account);
+	}
 	
 	public void list() //Az arraylist elemeinek listazasa, kizarolag a teszteles celjabol
 	{
@@ -52,29 +60,60 @@ public class Bank {
 	
 	public static boolean login(String username, String password)
 	{
-		for(int i = 0; i<accounts.size(); i++)
+		for(Account account : accounts)
 		{
-			if(accounts.get(i).getUsername().equals(username)&&accounts.get(i).getPassword().equals(password))
+			if(account.getUsername().equals(username)&&account.getPassword().equals(password))
 			{
-				System.out.println("Sikeres bejelentkezes");
 				return true;
 			}
 		}
-		System.out.println("Helytelen felhasznalonev vagy jelszo");
 		return false;
 	}
 
 	public static boolean isAdmin(String username, String password)
 	{
-		for(int i = 0; i<accounts.size();i++)
+		for(Admin admin : admins)
 		{
-			if(admins.get(i).getUsername().equals(username)&&admins.get(i).getPassword().equals(password))
+			if(admin.getUsername().equals(username)&&admin.getPassword().equals(password))
 			{
 				return true;
 			}
 		}
 		return false;
 	}
+
+	public Account findAccount(String username, String password)
+	{
+		for(Account account : accounts)
+		{
+			if(account.getUsername().equals(username)&&account.getPassword().equals(password))
+			{
+				return account;
+			}
+		}
+		return null;
+	}
+
+	public static void transferMoney(Account from, Account to, double money)
+	{
+		from.setMoney(from.getMoney()-money);
+		to.setMoney(to.getMoney()+money);
+	}
+
+	public Account findByIBAN(String IBAN)
+	{
+		long iban = Long.parseLong(IBAN);
+		for (Account account : accounts)
+		{
+			if(account.getIBAN() == iban)
+			{
+				return account;
+			}
+		}
+		return null;
+	}
+
+
 
 	public static void changePassword(String older, String newer)
 	{
@@ -88,6 +127,41 @@ public class Bank {
 			}
 		}
 		System.out.println("Helytelen regi jelszo");
+	}
+
+	public static boolean isUsedIban(long iban)
+	{
+		for(Account account : accounts)
+		{
+			if(account.getIBAN() == iban)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static long generateIban()
+	{
+		Random random = new Random();
+		while(true)
+		{
+			long iban = accounts.get(0).getIBAN();
+			if(!isUsedIban(iban))
+			{
+				return iban;
+			}
+			else
+			{
+				StringBuilder randomNumberBuilder = new StringBuilder();
+				for (int i = 0; i < 16; i++) {
+					int digit = random.nextInt(10); // Véletlenszerű szám 0 és 9 között
+					randomNumberBuilder.append(digit);
+				}
+				String ibanstring = randomNumberBuilder.toString();
+				iban = Long.parseLong(ibanstring);
+			}
+		}
 	}
 
 }
