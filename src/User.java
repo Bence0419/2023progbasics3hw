@@ -1,4 +1,6 @@
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String name; //anyakonyvezett nev
 	private String username; //bejelentkezesi felhasznalonev	
 	private String password; //bejelentkezesi jelszo

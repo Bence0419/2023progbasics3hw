@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.Random;
 
 
@@ -8,7 +9,7 @@ public class Account extends User{
 	//ATTRIBUTUMOK
 	// ----------------------------------------
 	
-	private long IBAN; //international bank account number 16jegyu bankszamla szam
+	private String IBAN; //international bank account number 16jegyu bankszamla szam
 	private double money; //jelenlegi osszeg a szamlan
 	
 	// ----------------------------------------
@@ -18,7 +19,6 @@ public class Account extends User{
 	public Account()
 	{
 		super("","","");
-		this.IBAN = 117;
 		this.money = 0;
 	}
 	
@@ -52,7 +52,7 @@ public class Account extends User{
 		return this.money;
 	}
 	
-	public long getIBAN()
+	public String getIBAN()
 	{
 		return IBAN;
 	}
@@ -67,7 +67,7 @@ public class Account extends User{
 	}
 	
 	
-	public void setIBAN(long d)
+	public void setIBAN(String d)
 	{
 		this.IBAN = d;
 	}
@@ -76,15 +76,15 @@ public class Account extends User{
 	//KIIRATAS A TOSTRING SEGITSEGEVEL
 	// ----------------------------------------
 	
-	public String toString()
-	{
-		String hiddenIBAN = Long.toString(this.IBAN);
-		for(int i = 3; i<hiddenIBAN.length()-4;i++)
-		{
-			hiddenIBAN.replace(hiddenIBAN.charAt(i),'X');
-		}
-		String text = super.getName() + " " + hiddenIBAN;
-		return text;
-	}
+	// public String toString()
+	// {
+	// 	String hiddenIBAN = this.IBAN
+	// 	for(int i = 3; i<hiddenIBAN.length()-4;i++)
+	// 	{
+	// 		hiddenIBAN.replace(hiddenIBAN.charAt(i),'X');
+	// 	}
+	// 	String text = super.getName() + " " + hiddenIBAN;
+	// 	return text;
+	// }
 
 }

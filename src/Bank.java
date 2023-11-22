@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,8 +12,8 @@ public class Bank {
 	//ATTRIBUTUMOK
 	// ----------------------------------------
 	
-	public static ArrayList<Account> accounts = new ArrayList<Account>(); //A fiokok tarolasara hasznalt kontener
-	public static ArrayList<Admin> admins = new ArrayList<Admin>();
+	public  ArrayList<Account> accounts = new ArrayList<Account>(); //A fiokok tarolasara hasznalt kontener
+	public  ArrayList<Admin> admins = new ArrayList<Admin>();
 	
 	// ----------------------------------------
 	//METODUSOK
@@ -32,17 +34,17 @@ public class Bank {
 		}
 	}
 	
-	public static void loadAccountData(String filename) {  //Az arraylist feltoltese a fajlba mar meglevo elemekkel
+	public void loadAccountData(String filename) {  //Az arraylist feltoltese a fajlba mar meglevo elemekkel
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" ");
                 if (parts.length >= 5) {
                     String name = parts[0];
-                    int iban = Integer.parseInt(parts[1]);
+                    String iban = parts[1];
                     String username = parts[2];
                     String password = parts[3];
-                    int money = Integer.parseInt(parts[4]);
+                    double money = Integer.parseInt(parts[4]);
 
                     Account account = new Account();
                     account.setName(name);
@@ -57,8 +59,23 @@ public class Bank {
             e.printStackTrace();
         }
     }
+
+	public  void saveAccountData(String filename) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+            for (Account account : accounts) {
+                // Formázott szövegként kiírjuk az adatokat a fájlba
+                String line = String.format("%s %s %s %s %d",
+                        account.getName(), account.getIBAN(), account.getUsername(),
+                        account.getPassword(), account.getMoney());
+                bw.write(line);
+                bw.newLine(); // Új sor karakter hozzáadása a következő sorhoz
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
-	public static boolean login(String username, String password)
+	public  boolean login(String username, String password)
 	{
 		for(Account account : accounts)
 		{
@@ -70,7 +87,7 @@ public class Bank {
 		return false;
 	}
 
-	public static boolean isAdmin(String username, String password)
+	public  boolean isAdmin(String username, String password)
 	{
 		for(Admin admin : admins)
 		{
@@ -94,18 +111,17 @@ public class Bank {
 		return null;
 	}
 
-	public static void transferMoney(Account from, Account to, double money)
+	public  void transferMoney(Account from, Account to, double money)
 	{
 		from.setMoney(from.getMoney()-money);
 		to.setMoney(to.getMoney()+money);
 	}
 
-	public Account findByIBAN(String IBAN)
+	public  Account findByIBAN(String IBAN)
 	{
-		long iban = Long.parseLong(IBAN);
 		for (Account account : accounts)
 		{
-			if(account.getIBAN() == iban)
+			if(account.getIBAN().equals(IBAN))
 			{
 				return account;
 			}
@@ -115,7 +131,7 @@ public class Bank {
 
 
 
-	public static void changePassword(String older, String newer)
+	public  void changePassword(String older, String newer)
 	{
 		for(int i = 0; i<accounts.size(); i++)
 		{
@@ -129,11 +145,11 @@ public class Bank {
 		System.out.println("Helytelen regi jelszo");
 	}
 
-	public static boolean isUsedIban(long iban)
+	public boolean isUsedIban(String iban)
 	{
 		for(Account account : accounts)
 		{
-			if(account.getIBAN() == iban)
+			if(account.getIBAN().equals(iban))
 			{
 				return true;
 			}
@@ -141,12 +157,16 @@ public class Bank {
 		return false;
 	}
 
-	public static long generateIban()
+	public String generateIban()
 	{
 		Random random = new Random();
 		while(true)
 		{
-			long iban = accounts.get(0).getIBAN();
+			String iban = "";
+			if(!accounts.isEmpty())
+			{
+				iban = accounts.get(0).getIBAN();
+			}
 			if(!isUsedIban(iban))
 			{
 				return iban;
@@ -159,9 +179,26 @@ public class Bank {
 					randomNumberBuilder.append(digit);
 				}
 				String ibanstring = randomNumberBuilder.toString();
-				iban = Long.parseLong(ibanstring);
+				return ibanstring;
 			}
 		}
 	}
+
+	public static String printBankNotes(double amount) {
+        // Hungarian banknote denominations
+        int[] bankNotes = {20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1};
+        
+        StringBuilder result = new StringBuilder(amount + " Ft kiadása bankjegyekbe:\n");
+
+        for (int bankNote : bankNotes) {
+            int count = (int) (amount / bankNote);
+            if (count > 0) {
+                result.append(count).append(" db ").append(bankNote).append(" Ft-os\n");
+                amount %= bankNote;
+            }
+        }
+
+        return result.toString();
+    }
 
 }

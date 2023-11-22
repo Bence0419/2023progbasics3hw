@@ -15,10 +15,10 @@ class LoginFrame extends JFrame implements ActionListener {
     private JButton loginButton;
     private Bank bank;
 
-    public LoginFrame(Bank bank) {
-        this.bank = bank;
 
+    public LoginFrame(Bank bank) {
         // Komponensek inicializálása
+        this.bank = bank;
         usernameField = new JTextField();
         passwordField = new JPasswordField();
         loginButton = new JButton("Bejelentkezés");

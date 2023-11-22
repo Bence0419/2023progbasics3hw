@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Random;
 
-public class Admin extends User {
+public class Admin extends User{
     private int adminID;
 
     public Admin(String name,String user, String pw)

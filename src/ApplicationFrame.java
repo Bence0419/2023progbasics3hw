@@ -4,9 +4,9 @@ import java.awt.event.ActionListener;
 
 // Alkalmazás ablak (ApplicationFrame) osztály
 class ApplicationFrame extends JFrame {
-    public ApplicationFrame(Bank bank, Account account) {
+    public ApplicationFrame(Bank b, Account account) {
         // Ablak beállításai
-        bank  = new Bank();
+
         setTitle("Banki Alkalmazás");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,36 +16,35 @@ class ApplicationFrame extends JFrame {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         // Feature-ök hozzáadása
-        addFeatureButton("Új fiók hozzáadása", new ActionListener() {
+        addFeatureButton("Adataim", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Új fiók hozzáadása
-                JOptionPane.showMessageDialog(ApplicationFrame.this, "Új fiók hozzáadása");
+                JFrame myProfilefFrame = new MyProfileFrame(account);
+                myProfilefFrame.setVisible(true);
             }
         });
 
-        addFeatureButton("Pénz felvétele", new ActionListener() {
+        addFeatureButton("Pénz befizetése", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame addMoneyFrame = new AddMoneyFrame(account);
                 addMoneyFrame.setVisible(true);
-                JOptionPane.showMessageDialog(ApplicationFrame.this, "Pénz felvétele");
             }
         });
 
         addFeatureButton("Pénz levétele", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Pénz levétele
-                JOptionPane.showMessageDialog(ApplicationFrame.this, "Pénz levétele");
+                JFrame moneyCheckout = new MoneyCheckoutFrame(account);
+                moneyCheckout.setVisible(true);
             }
         });
 
         addFeatureButton("Banki átutalás", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Banki átutalás
-                JOptionPane.showMessageDialog(ApplicationFrame.this, "Banki átutalás");
+                JFrame transferFrame = new TransferFrame(b, account);
+                transferFrame.setVisible(true);
             }
         });
     }
