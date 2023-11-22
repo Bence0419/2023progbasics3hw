@@ -1,8 +1,12 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,6 +24,46 @@ public class Bank {
 	// ----------------------------------------
 	
 	
+	    public void serializeAdmins(String filename) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(admins);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Admins deszerializáció
+    @SuppressWarnings("unchecked")
+    public void deserializeAdmins(String filename) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+            admins = (ArrayList<Admin>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Accounts szerializáció
+    public void serializeAccounts(String filename) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(accounts);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Accounts deszerializáció
+    @SuppressWarnings("unchecked")
+    public void deserializeAccounts(String filename) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+            accounts = (ArrayList<Account>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 	public void addAccount(Account account)
 	{
 		account.setIBAN(generateIban());
