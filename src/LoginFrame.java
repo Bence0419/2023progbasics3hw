@@ -14,11 +14,14 @@ class LoginFrame extends JFrame implements ActionListener {
     private JPasswordField passwordField;
     private JButton loginButton;
     private Bank bank;
+    private Account account;
 
 
     public LoginFrame(Bank bank) {
         // Komponensek inicializálása
         this.bank = bank;
+        bank.deserializeAccounts("bankdata.dat");
+        bank.deserializeAdmins("admins.dat");
         usernameField = new JTextField();
         passwordField = new JPasswordField();
         loginButton = new JButton("Bejelentkezés");
@@ -32,6 +35,7 @@ class LoginFrame extends JFrame implements ActionListener {
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         // Layout beállítása
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -50,16 +54,15 @@ class LoginFrame extends JFrame implements ActionListener {
         // Bejelentkezési adatok ellenőrzése
         if(bank.isAdmin(username, password))
         {
-            // JFrame adminFrame = new adminFrame(bank);
-            // adminFrame.setVisible(true);
-            // dispose();
+            JFrame adminFeatureButtonPanel = new AdminFeatureButtonPanel(bank);
+            adminFeatureButtonPanel.setVisible(true);
+            dispose();
         }
         else 
         {
             if(bank.login(username, password))
             {
-                Account account = new Account();
-                account = bank.findAccount(username, password);
+                this.account = bank.findAccount(username, password);
                 JFrame appFrame = new ApplicationFrame(bank, account);
                 appFrame.setVisible(true);
                 dispose();

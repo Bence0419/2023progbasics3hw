@@ -45,21 +45,23 @@ public class Bank {
     // Accounts szerializáció
     public void serializeAccounts(String filename) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
-            oos.writeObject(accounts);
+			oos.writeObject(accounts);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     // Accounts deszerializáció
-    @SuppressWarnings("unchecked")
-    public void deserializeAccounts(String filename) {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
-            accounts = (ArrayList<Account>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+	@SuppressWarnings("unchecked")
+	public void deserializeAccounts(String filename) {
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+			accounts.clear();
+			accounts.addAll((ArrayList<Account>) ois.readObject());
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 
 
@@ -131,6 +133,18 @@ public class Bank {
 		return false;
 	}
 
+	public boolean isInAccounts(String iban)
+	{
+		for(Account account : accounts)
+		{
+			if(account.getIBAN().equals(iban))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public  boolean isAdmin(String username, String password)
 	{
 		for(Admin admin : admins)
@@ -218,11 +232,11 @@ public class Bank {
 			else
 			{
 				StringBuilder randomNumberBuilder = new StringBuilder();
-				for (int i = 0; i < 16; i++) {
+				for (int i = 0; i < 9; i++) {
 					int digit = random.nextInt(10); // Véletlenszerű szám 0 és 9 között
 					randomNumberBuilder.append(digit);
 				}
-				String ibanstring = randomNumberBuilder.toString();
+				String ibanstring = "HU42123" + randomNumberBuilder.toString() + "0000000";
 				return ibanstring;
 			}
 		}
@@ -244,5 +258,9 @@ public class Bank {
 
         return result.toString();
     }
+
+	public void addAdmin(Admin admin) {
+		admins.add(admin);
+	}
 
 }

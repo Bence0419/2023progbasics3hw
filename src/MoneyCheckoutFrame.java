@@ -6,7 +6,12 @@ import java.awt.event.ActionListener;
 class MoneyCheckoutFrame extends JFrame {
     private JTextField amountField;
 
-    public MoneyCheckoutFrame(Account account) {
+    private Bank bank;
+    private Account account;
+
+    public MoneyCheckoutFrame(Bank b, Account account) {
+        this.bank = b;
+        this.account = account;
         // Ablak beállításai
         setTitle("Pénz levétele");
         setSize(300, 150);
@@ -32,8 +37,9 @@ class MoneyCheckoutFrame extends JFrame {
                             "Hiba", JOptionPane.ERROR_MESSAGE);
                     }
                     else{
-                        account.setMoney(account.getMoney()-amount);
-                        JOptionPane.showMessageDialog(MoneyCheckoutFrame.this, Bank.printBankNotes(amount) + "Az új egyenlege: "+ account.getMoney());
+                        bank.findAccount(account.getUsername(), account.getPassword()).setMoney(account.getMoney()-amount);
+                        JOptionPane.showMessageDialog(MoneyCheckoutFrame.this, Bank.printBankNotes(amount) + "Az új egyenlege: "+ bank.findAccount(account.getUsername(), account.getPassword()).getMoney());
+                        bank.serializeAccounts("bankdata.dat");
                         dispose(); // Az ablak bezárása
                     }
                 } catch (NumberFormatException ex) {

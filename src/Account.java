@@ -9,7 +9,7 @@ public class Account extends User{
 	//ATTRIBUTUMOK
 	// ----------------------------------------
 	
-	private String IBAN; //international bank account number 16jegyu bankszamla szam
+	private String IBAN; //international bank account number HU (országkód) 42(ellenőrző szám) 123(bank kód) 111111111 0000000 (16 számjegyú bankszámlaszám) formátumban
 	private double money; //jelenlegi osszeg a szamlan
 	
 	// ----------------------------------------

@@ -8,7 +8,12 @@ public class TransferFrame extends JFrame {
     private JTextField amountField;
     private JButton okButton;
 
+    private Bank bank;
+    private Account account;
+
     public TransferFrame(Bank bank, Account account) {
+        this.bank = bank;
+        this.account = account;
         // Ablak beállításai
         setTitle("Átutalás");
         setSize(300, 150);
@@ -29,16 +34,24 @@ public class TransferFrame extends JFrame {
                 double transferAmount;
                 try {
                     transferAmount = Double.parseDouble(amountField.getText());
-                    if(transferAmount>account.getMoney())
+                    if(!bank.isInAccounts(targetAccountNumber))
                     {
-                        JOptionPane.showMessageDialog(TransferFrame.this, "Érvénytelen összeg. Nincs ennyi pénz az egyenlegében.",
+                        JOptionPane.showMessageDialog(TransferFrame.this, "Sikertelen utalás. Nincs ilyen bankszámlaszám!",
                             "Hiba", JOptionPane.ERROR_MESSAGE);
-                    }else{
-                        bank.transferMoney(bank.findAccount(account.getUsername(),account.getPassword()), bank.findByIBAN(targetAccountNumber), transferAmount);
-                        JOptionPane.showMessageDialog(TransferFrame.this, "Átutalás sikeres: "
-                                + transferAmount + " Ft " + bank.findByIBAN(targetAccountNumber).getName()+ " számlájára.\nAz új egyenlege: " + 
-                                bank.findAccount(account.getUsername(),account.getPassword()).getMoney());
-                        dispose(); // Az ablak bezárása
+                    }
+                    else{
+                        if(transferAmount>account.getMoney())
+                        {
+                            JOptionPane.showMessageDialog(TransferFrame.this, "Érvénytelen összeg. Nincs ennyi pénz az egyenlegében.",
+                                "Hiba", JOptionPane.ERROR_MESSAGE);
+                        }else{
+                            bank.transferMoney(bank.findAccount(account.getUsername(),account.getPassword()), bank.findByIBAN(targetAccountNumber), transferAmount);
+                            JOptionPane.showMessageDialog(TransferFrame.this, "Átutalás sikeres: "
+                                    + transferAmount + " Ft " + bank.findByIBAN(targetAccountNumber).getName()+ " számlájára.\nAz új egyenlege: " + 
+                                    bank.findAccount(account.getUsername(),account.getPassword()).getMoney());
+                            bank.serializeAccounts("bankdata.dat");
+                            dispose(); // Az ablak bezárása
+                        }
                     }
                 } catch (NumberFormatException ex) {
                     // Hiba, ha nem számot adott meg

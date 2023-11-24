@@ -5,15 +5,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 // Alkalmazás ablak (ApplicationFrame) osztály
-class ApplicationFrame extends JFrame {
+class AdminFeatureButtonPanel extends JFrame {
     private Bank bank;
-    private Account account;
     
-    public ApplicationFrame(Bank b, Account account) {
+    public AdminFeatureButtonPanel(Bank b) {
         // Ablak beállításai
         this.bank = b;
-        this.account = account;
-        setTitle("Banki Alkalmazás");
+        bank.deserializeAccounts("bankdata.dat");
+        setTitle("Adminisztrátori alkalmazás");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -28,35 +27,33 @@ class ApplicationFrame extends JFrame {
             }
         });
         // Feature-ök hozzáadása
-        addFeatureButton("Adataim", new ActionListener() {
+        addFeatureButton("Bankfiókok listázása", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame myProfilefFrame = new MyProfileFrame(bank, account);
-                myProfilefFrame.setVisible(true);
+                JFrame adminFrame = new AdminFrame(bank);
+                adminFrame.setVisible(true);
             }
         });
 
-        addFeatureButton("Pénz befizetése", new ActionListener() {
+        addFeatureButton("Új fiók hozzáadása", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame addMoneyFrame = new AddMoneyFrame(bank, account);
-                addMoneyFrame.setVisible(true);
+                JFrame newAccountFrame = new NewAccountFrame(bank);
+                newAccountFrame.setVisible(true);
             }
         });
 
         addFeatureButton("Pénz levétele", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame moneyCheckout = new MoneyCheckoutFrame(bank, account);
-                moneyCheckout.setVisible(true);
+                System.out.println("Fasz");
             }
         });
 
         addFeatureButton("Banki átutalás", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame transferFrame = new TransferFrame(bank, account);
-                transferFrame.setVisible(true);
+                System.out.println("Fasz");
             }
         });
     }
