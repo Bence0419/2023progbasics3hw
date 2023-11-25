@@ -33,7 +33,7 @@ public class MyProfileFrame extends JFrame {
         balanceField = new JTextField(Double.toString(account.getMoney()),20);
         balanceField.setEditable(false);
         showHidePasswordButton = new JButton("Jelszó felfedése");
-        editProfileButton = new JButton("Adatok szerkesztése");
+        editProfileButton = new JButton("Adatmódosítások mentése");
 
         // A showHidePasswordButton eseménykezelője
         showHidePasswordButton.addActionListener(new ActionListener() {

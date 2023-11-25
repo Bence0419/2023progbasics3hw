@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.Random;
+import java.util.ArrayList;
 
 
 
@@ -71,20 +72,6 @@ public class Account extends User{
 	{
 		this.IBAN = d;
 	}
-	
-	// ----------------------------------------
-	//KIIRATAS A TOSTRING SEGITSEGEVEL
-	// ----------------------------------------
-	
-	// public String toString()
-	// {
-	// 	String hiddenIBAN = this.IBAN
-	// 	for(int i = 3; i<hiddenIBAN.length()-4;i++)
-	// 	{
-	// 		hiddenIBAN.replace(hiddenIBAN.charAt(i),'X');
-	// 	}
-	// 	String text = super.getName() + " " + hiddenIBAN;
-	// 	return text;
-	// }
+
 
 }

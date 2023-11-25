@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 public class Bank {
 	
 	// ----------------------------------------
@@ -263,4 +265,19 @@ public class Bank {
 		admins.add(admin);
 	}
 
+    public void deleteAccount(String accountNumber) {
+		accounts.removeIf(account -> account.getIBAN().equals(accountNumber));
+	}
+
+	public boolean isUsedUsername(String username) {
+		for(Account account: accounts)
+		{
+			if(account.getUsername().equals(username))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

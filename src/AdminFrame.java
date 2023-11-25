@@ -1,5 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 
 public class AdminFrame extends JFrame {
@@ -34,7 +37,6 @@ public class AdminFrame extends JFrame {
 
         // Ablak beállításai
         setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Az ablak középre helyezése
     }
 }

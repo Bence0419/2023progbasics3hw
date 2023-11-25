@@ -54,8 +54,8 @@ class LoginFrame extends JFrame implements ActionListener {
         // Bejelentkezési adatok ellenőrzése
         if(bank.isAdmin(username, password))
         {
-            JFrame adminFeatureButtonPanel = new AdminFeatureButtonPanel(bank);
-            adminFeatureButtonPanel.setVisible(true);
+            JFrame addFeatureButtonPanel = new AdminFeatureButtonPanel(bank);
+            addFeatureButtonPanel.setVisible(true);
             dispose();
         }
         else 

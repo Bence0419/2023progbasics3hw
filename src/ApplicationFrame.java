@@ -1,4 +1,6 @@
 import javax.swing.*;
+
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -19,7 +21,7 @@ class ApplicationFrame extends JFrame {
         setLocationRelativeTo(null);
         
         // Layout beállítása
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         
         addWindowListener(new WindowAdapter() {
             @Override
@@ -57,6 +59,16 @@ class ApplicationFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFrame transferFrame = new TransferFrame(bank, account);
                 transferFrame.setVisible(true);
+            }
+        });
+
+        addFeatureButton("Kijelentkezés", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(ApplicationFrame.this,"Kijelentkezve " + account.getUsername() + " fiókból.");
+                dispose();
+                JFrame loginFrame = new LoginFrame(bank);
+                loginFrame.setVisible(true);
             }
         });
     }
