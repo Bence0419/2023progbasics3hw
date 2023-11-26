@@ -30,7 +30,7 @@ public class MyProfileFrame extends JFrame {
         passwordField = new JPasswordField(account.getPassword(),20);
         accountNumberField = new JTextField(account.getIBAN(),20);
         accountNumberField.setEditable(false);
-        balanceField = new JTextField(Double.toString(account.getMoney()),20);
+        balanceField = new JTextField(Double.toString(account.getMoney()) + " Ft",20);
         balanceField.setEditable(false);
         showHidePasswordButton = new JButton("Jelszó felfedése");
         editProfileButton = new JButton("Adatmódosítások mentése");
@@ -57,15 +57,11 @@ public class MyProfileFrame extends JFrame {
                 String newName = nameField.getText();
                 String newUsername = usernameField.getText();
                 String newPassword = new String(passwordField.getPassword());
-                String newAccountNumber = accountNumberField.getText();
-                double newBalance = Double.parseDouble(balanceField.getText());
         
                 // Frissítjük az Account objektumot az új adatokkal
                 account.setName(newName);
                 account.setUsername(newUsername);
                 account.setPassword(newPassword);
-                account.setIBAN(newAccountNumber);
-                account.setMoney(newBalance);
         
                 // Bank frissítése a módosított Account objektummal
                 bank.serializeAccounts("bankdata.dat");

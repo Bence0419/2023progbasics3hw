@@ -31,15 +31,21 @@ public class DeleteAccountFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Bankszámlaszám beolvasása a szövegdobozból
                 String accountNumber = accountNumberField.getText();
-
-                // Fiók törlése a bankból
-                bank.deleteAccount(accountNumber);
-
-                // Bank deszerializációja és mentése
-                bank.serializeAccounts("bankdata.dat");
-
-                // Ablak bezárása
-                dispose();
+                if(!bank.isInAccounts(accountNumber))
+                {
+                    JOptionPane.showMessageDialog(DeleteAccountFrame.this, "Nincs ilyen fiók.",
+                            "Hiba", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    // Fiók törlése a bankból
+                    JOptionPane.showMessageDialog(DeleteAccountFrame.this,bank.findByIBAN(accountNumber).getUsername() + " fiók törlése megtörtént.");
+                    bank.deleteAccount(accountNumber);
+    
+                    // Bank deszerializációja és mentése
+                    bank.serializeAccounts("bankdata.dat");
+                    // Ablak bezárása
+                    dispose();
+                }
             }
         });
         add(okButton);

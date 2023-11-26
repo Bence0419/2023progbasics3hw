@@ -5,27 +5,27 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
 
-public class AdminFrame extends JFrame {
+public class ListAdminsFrame extends JFrame {
 
     private JTable table;
     private Bank bank;
-    public AdminFrame(Bank b) {
+    public ListAdminsFrame(Bank b) {
         // Cím beállítása
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.bank = b;
-        setTitle("Fiókok");
+        setTitle("Adminok");
 
         // Táblázat modell létrehozása
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Név");
-        model.addColumn("Számlaszám");
-        model.addColumn("Egyenleg");
+        model.addColumn("felhasználónév");
+        model.addColumn("Azonosító");
 
         // Szerializált adatok betöltése
 
         // Adatok hozzáadása a modellhez
-        for (Account account : bank.accounts) {
-            model.addRow(new Object[]{account.getName(), account.getIBAN(), account.getMoney() + " Ft"});
+        for (Admin admin : bank.admins) {
+            model.addRow(new Object[]{admin.getName(), admin.getUsername(), admin.getAdminId()});
         }
 
         // Táblázat létrehozása a modell alapján

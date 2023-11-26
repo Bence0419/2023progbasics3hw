@@ -81,48 +81,7 @@ public class Bank {
 			System.out.println(accounts.get(i).toString());
 		}
 	}
-	
-	public void loadAccountData(String filename) {  //Az arraylist feltoltese a fajlba mar meglevo elemekkel
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(" ");
-                if (parts.length >= 5) {
-                    String name = parts[0];
-                    String iban = parts[1];
-                    String username = parts[2];
-                    String password = parts[3];
-                    double money = Integer.parseInt(parts[4]);
 
-                    Account account = new Account();
-                    account.setName(name);
-                    account.setIBAN(iban);
-                    account.setUsername(username);
-                    account.setPassword(password);
-                    account.setMoney(money);
-                    accounts.add(account);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-	public  void saveAccountData(String filename) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
-            for (Account account : accounts) {
-                // Formázott szövegként kiírjuk az adatokat a fájlba
-                String line = String.format("%s %s %s %s %d",
-                        account.getName(), account.getIBAN(), account.getUsername(),
-                        account.getPassword(), account.getMoney());
-                bw.write(line);
-                bw.newLine(); // Új sor karakter hozzáadása a következő sorhoz
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-	
 	public  boolean login(String username, String password)
 	{
 		for(Account account : accounts)
@@ -246,7 +205,7 @@ public class Bank {
 
 	public static String printBankNotes(double amount) {
         // Hungarian banknote denominations
-        int[] bankNotes = {20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1};
+        int[] bankNotes = {20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50, 20, 10, 5};
         
         StringBuilder result = new StringBuilder(amount + " Ft kiadása bankjegyekbe:\n");
 
@@ -262,6 +221,7 @@ public class Bank {
     }
 
 	public void addAdmin(Admin admin) {
+		admin.setAdminID();
 		admins.add(admin);
 	}
 
@@ -279,5 +239,27 @@ public class Bank {
 		}
 		return false;
 	}
+
+	public Admin findAdmin(String username, String password) {
+		for(Admin admin : admins)
+		{
+			if(admin.getUsername().equals(username)&&admin.getPassword().equals(password))
+			{
+				return admin;
+			}
+		}
+		return null;
+	}
+
+    public boolean isUsedAdmin(String username) {
+        for(Admin admin : admins)
+		{
+			if(admin.getUsername().equals(username))
+			{
+				return true;
+			}
+		}
+		return false;
+    }
 	
 }

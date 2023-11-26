@@ -2,19 +2,19 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class Admin extends User{
-    private long adminID;
+    private String adminID;
 
     public Admin(String name,String user, String pw)
     {
         super(name,user,pw);
     }
-    public long getAdminId()
+    public String getAdminId()
     {
         return adminID;
     }
     public void setAdminID(String val)
     {
-        adminID = Long.parseLong(val);
+        adminID = val;
     }
     public void setAdminID()
     {
@@ -26,6 +26,6 @@ public class Admin extends User{
 			String h = Integer.toString(val);
             idstring+=h;
 		}
-        this.adminID = Long.parseLong(idstring);
+        this.adminID = idstring;
     }
 }
